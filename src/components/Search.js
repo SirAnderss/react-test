@@ -5,8 +5,7 @@ import ProductList from './ProductList';
 import FilterForm from './FilterForm';
 
 function Search(props) {
-  const [allProducts, setAllProducts] = React.useState([]);
-  const [chunkProducts, setChunkProducts] = React.useState([]);
+  const [displayedProducts, setDisplayedProducts] = React.useState([]);
   const [productManager, setProductManager] = React.useState({
     priceFrom: '',
     priceTo: '',
@@ -29,37 +28,38 @@ function Search(props) {
 
   const filterProducts = () => {
     if (!productManager.priceFrom && !productManager.priceTo) {
-      setChunkProducts(props.products);
+      setDisplayedProducts(props.products);
     } else {
       if (productManager.priceFrom === productManager.priceTo) {
         if (
-          productManager.priceFrom === 100 &&
-          productManager.priceTo === 100
+          !displayedProducts.find(
+            item => item.price === parseFloat(productManager.priceFrom)
+          )
         ) {
-          setChunkProducts([]);
+          setDisplayedProducts([]);
         } else {
-          setChunkProducts([
-            chunkProducts.find(
+          setDisplayedProducts([
+            displayedProducts.find(
               item => item.price === parseFloat(productManager.priceFrom)
             ),
           ]);
         }
       } else if (productManager.priceTo > productManager.priceFrom) {
-        setChunkProducts(
-          chunkProducts.filter(
+        setDisplayedProducts(
+          displayedProducts.filter(
             item =>
               item.price >= parseFloat(productManager.priceFrom) &&
               item.price <= parseFloat(productManager.priceTo)
           )
         );
       } else if (productManager.priceFrom > productManager.priceTo) {
-        setChunkProducts(props.products);
+        setDisplayedProducts(props.products);
       } else if (
         productManager.priceFrom > 0 &&
         productManager.priceTo === ''
       ) {
-        setChunkProducts(
-          chunkProducts.filter(
+        setDisplayedProducts(
+          displayedProducts.filter(
             item => item.price >= parseFloat(productManager.priceFrom)
           )
         );
@@ -67,8 +67,8 @@ function Search(props) {
         productManager.priceFrom === '' &&
         productManager.priceTo > 0
       ) {
-        setChunkProducts(
-          chunkProducts.filter(
+        setDisplayedProducts(
+          displayedProducts.filter(
             item => item.price < parseFloat(productManager.priceTo)
           )
         );
@@ -90,6 +90,7 @@ function Search(props) {
 
   React.useEffect(() => {
     filterProducts();
+    // eslint-disable-next-line
   }, [productManager.priceFrom, productManager.priceTo]);
 
   return (
@@ -105,7 +106,7 @@ function Search(props) {
         columns={productManager.columns}
       />
 
-      <ProductList products={chunkProducts} columns={productManager.columns} />
+      <ProductList products={displayedProducts} columns={productManager.columns} />
     </div>
   );
 }

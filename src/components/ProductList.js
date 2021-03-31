@@ -20,11 +20,11 @@ function ProductList(props) {
           <tbody>
             {props.products.map((item, key) => (
               <tr key={key}>
-                {props.columns.id ? <th>{item.id}</th> : null}
-                {props.columns.name ? <th>{item.name}</th> : null}
-                {props.columns.department ? <th>{item.department}</th> : null}
-                {props.columns.currency ? <th>{item.currency}</th> : null}
-                {props.columns.price ? <th>{item.price}</th> : null}
+                {props.columns.id ? <td>{item.id}</td> : null}
+                {props.columns.name ? <td>{item.name}</td> : null}
+                {props.columns.department ? <td>{item.department}</td> : null}
+                {props.columns.currency ? <td>{item.currency}</td> : null}
+                {props.columns.price ? <td>{item.price}</td> : null}
               </tr>
             ))}
           </tbody>
