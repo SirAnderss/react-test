@@ -1,25 +1,29 @@
-import React, { Component } from 'react'
+import React from 'react';
 
-export default class FilterForm extends Component {
+function FilterForm(props) {
+  const onPriceInputChange = e => {
+    props.onPriceInputChange(e.target.name, e.target.value);
+  };
 
-  onPriceInputChange = (e) => {
-    // to-do: implement handler
-  }
-
-  render() {
-    return (
-      <div>
-        {/* Bind handlers and props */}
-        <label htmlFor="name">Filter:</label>
-        <input
-          type="number"
-          name="priceFrom"
-          placeholder="Price from..." />
-        <input
-          type="number"
-          name="priceTo"
-          placeholder="Price to..." />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <label htmlFor='name'>Filter:</label>
+      <input
+        type='number'
+        name='priceFrom'
+        placeholder='Price from...'
+        value={props.priceFrom}
+        onChange={onPriceInputChange}
+      />
+      <input
+        type='number'
+        name='priceTo'
+        placeholder='Price to...'
+        value={props.priceTo}
+        onChange={onPriceInputChange}
+      />
+    </div>
+  );
 }
+
+export default FilterForm;
